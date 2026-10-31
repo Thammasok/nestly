@@ -1,0 +1,47 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+}
+
+/* Semantic tokens — name colors by role so dark mode is a variable swap,
+   not a `dark:` class on every element. */
+:root {
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.15 0 0);
+  --color-surface: oklch(0.98 0 0);
+  --color-border: oklch(0.9 0 0);
+  --color-primary: oklch(0.55 0.2 260);
+  --color-primary-foreground: oklch(0.99 0 0);
+  --color-muted: oklch(0.96 0 0);
+  --color-muted-foreground: oklch(0.5 0 0);
+  --color-destructive: oklch(0.58 0.22 25);
+}
+
+.dark {
+  --color-background: oklch(0.15 0 0);
+  --color-foreground: oklch(0.95 0 0);
+  --color-surface: oklch(0.2 0 0);
+  --color-border: oklch(0.3 0 0);
+  --color-muted: oklch(0.25 0 0);
+  --color-muted-foreground: oklch(0.65 0 0);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
