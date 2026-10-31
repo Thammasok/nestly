@@ -36,10 +36,10 @@ const data = {
     },
     {
       title: "Food",
-      url: "#",
+      url: "/food/inventory",
       icon: <RefrigeratorIcon />,
       items: [
-        { title: "Inventory", url: "#" },
+        { title: "Inventory", url: "/food/inventory" },
         { title: "Expiring soon", url: "#" },
         { title: "Shopping list", url: "#" },
       ],

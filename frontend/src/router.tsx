@@ -16,6 +16,11 @@ export const routes: RouteObject[] = [
         lazy: async () => ({ Component: (await import('@/routes/dashboard')).DashboardPage }),
       },
       {
+        path: 'food/inventory',
+        handle: { title: 'Food inventory' } satisfies RouteHandle,
+        lazy: async () => ({ Component: (await import('@/routes/food-inventory')).FoodInventoryPage }),
+      },
+      {
         path: 'settings',
         handle: { title: 'Settings' } satisfies RouteHandle,
         lazy: async () => ({ Component: (await import('@/routes/settings')).SettingsPage }),
