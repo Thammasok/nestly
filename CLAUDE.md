@@ -4,7 +4,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository state
 
-Greenfield. No application code, package manifest, or build/test tooling exists yet — the only source of truth is `personal-home-platform-project-spec.md` (read it before any major change). Once the NestJS project is scaffolded, add the real build/lint/test/single-test commands to this file.
+Early stage. `personal-home-platform-project-spec.md` is the source of truth (read it before any major change). The `frontend/` SPA is scaffolded; the NestJS backend is not yet — add its commands here once it exists.
+
+## Frontend (`frontend/`)
+
+Vite + React 19 + TypeScript + Tailwind v4 + shadcn/ui (radix-nova style, lucide icons), TanStack Router (file-based) + TanStack Query, Zustand, React Hook Form + Zod, Vitest + RTL. Client-only SPA — no SSR/Next.js.
+
+Run from `frontend/`:
+
+- `npm run dev` — dev server on :5173; `/api` is proxied to the backend on :3000
+- `npm run build` — `tsc -b && vite build`
+- `npm run lint` — oxlint
+- `npm run test:run` — all tests once; single file: `npx vitest run src/routes/index.test.tsx`; by name: `npx vitest run -t "<test name>"`
+- `npx shadcn@latest add <component>` — adds a primitive to `src/components/ui/`
+
+Conventions:
+- Routes are files in `src/routes/`; the router plugin generates `src/routeTree.gen.ts` (committed — `tsc -b` needs it before Vite runs). `*.test.tsx` files in `src/routes/` are ignored by route generation.
+- Router context carries the `queryClient`; route loaders should prefetch via TanStack Query rather than hold their own cache.
+- Feature code goes in `src/features/<domain>/` (api.ts with Zod schemas → queries.ts → components/); features don't import from each other. All file names kebab-case.
+- `cn()` comes from shadcn's `cn` package (re-exported by `src/lib/utils.ts`), not clsx/tailwind-merge.
+- Theme tokens live in `src/index.css` (shadcn CSS variables mapped via `@theme inline`); use semantic classes (`bg-background`, `text-muted-foreground`), not raw palette colours.
+- Only `VITE_`-prefixed env vars reach the client and they are public — never put Supabase service keys or Panasonic credentials there.
 
 `.claude/skills/` holds project-specific skills (solution-planner, orchestrator, backend, tester, etc.) and `.claude/knowledges/` holds shared engineering-practice references (TDD, test pyramid, interface-first, migration workflow, conventional commits…) those skills draw on.
 
