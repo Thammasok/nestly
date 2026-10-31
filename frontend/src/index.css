@@ -178,4 +178,11 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
+  /* Tailwind v4 resets buttons to cursor: default; restore the pointer on anything clickable.
+     Covers shadcn buttons, tabs, toggles and select triggers (all <button>) and real links. */
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  a[href] {
+    cursor: pointer;
+  }
 }

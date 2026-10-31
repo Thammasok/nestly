@@ -4,10 +4,13 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router/dom';
 import { queryClient } from '@/lib/query-client';
 import { router } from '@/router';
+import { watchSystemTheme } from '@/stores/theme-store';
 import '@/index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) throw new Error('Missing #root element in index.html');
+
+watchSystemTheme();
 
 createRoot(rootElement).render(
   <StrictMode>

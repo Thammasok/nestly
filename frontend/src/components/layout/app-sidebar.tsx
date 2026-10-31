@@ -3,18 +3,19 @@
 import * as React from "react"
 
 import { NavMain } from "@/components/layout/nav-main"
-import { Link } from "react-router"
+import { Link, useLocation } from "react-router"
 
 import { NestlyLogo } from "@/components/brand/nestly-logo"
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboardIcon, AirVentIcon, RefrigeratorIcon, ZapIcon, Settings2Icon } from "lucide-react"
+import { LayoutDashboardIcon, AirVentIcon, RefrigeratorIcon, ZapIcon, WorkflowIcon, SettingsIcon } from "lucide-react"
 
 const data = {
   navMain: [
@@ -55,12 +56,14 @@ const data = {
     {
       title: "Automations",
       url: "#",
-      icon: <Settings2Icon />,
+      icon: <WorkflowIcon />,
     },
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { pathname } = useLocation()
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -82,6 +85,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <NavMain items={data.navMain} />
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild tooltip="Settings" isActive={pathname.startsWith("/settings")}>
+              <Link to="/settings">
+                <SettingsIcon />
+                <span>Settings</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }
