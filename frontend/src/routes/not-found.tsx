@@ -1,19 +1,9 @@
-import type { QueryClient } from '@tanstack/react-query';
-import { createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router';
+import { Link } from 'react-router';
 import { AppShell } from '@/components/layout/app-shell';
 import { Button } from '@/components/ui/button';
 
-interface RouterContext {
-  queryClient: QueryClient;
-}
-
-export const Route = createRootRouteWithContext<RouterContext>()({
-  component: () => (
-    <AppShell title="Dashboard">
-      <Outlet />
-    </AppShell>
-  ),
-  notFoundComponent: () => (
+export function NotFoundPage() {
+  return (
     <AppShell title="Not found">
       <div className="flex flex-col items-start gap-4">
         <h1 className="text-2xl font-semibold">Page not found</h1>
@@ -22,5 +12,5 @@ export const Route = createRootRouteWithContext<RouterContext>()({
         </Button>
       </div>
     </AppShell>
-  ),
-});
+  );
+}

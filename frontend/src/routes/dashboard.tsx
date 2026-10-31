@@ -1,11 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
 import type { LucideIcon } from 'lucide-react';
 import { AirVent, Refrigerator, Zap } from 'lucide-react';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-
-export const Route = createFileRoute('/')({
-  component: DashboardPage,
-});
 
 const domains: { title: string; description: string; icon: LucideIcon }[] = [
   { title: 'Climate', description: 'Air conditioner status and control', icon: AirVent },
@@ -13,7 +8,7 @@ const domains: { title: string; description: string; icon: LucideIcon }[] = [
   { title: 'Electricity', description: 'Bills and meter readings', icon: Zap },
 ];
 
-function DashboardPage() {
+export function DashboardPage() {
   return (
     <div className="flex flex-col gap-6">
       <h1 className="text-2xl font-semibold">Home</h1>

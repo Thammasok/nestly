@@ -17,7 +17,6 @@
   "overrides": [
     {
       "files": [
-        "src/routes/**",
         "src/components/ui/**"
       ],
       "rules": {

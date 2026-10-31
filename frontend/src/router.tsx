@@ -1,17 +1,24 @@
-import { createRouter } from '@tanstack/react-router';
-import { queryClient } from '@/lib/query-client';
-import { routeTree } from '@/routeTree.gen';
+import { createBrowserRouter, type RouteObject } from 'react-router';
 
-export const router = createRouter({
-  routeTree,
-  context: { queryClient },
-  defaultPreload: 'intent',
-  // Let TanStack Query own freshness; the router just triggers loaders.
-  defaultPreloadStaleTime: 0,
-});
+// Pages load lazily so each route is its own chunk.
+export const routes: RouteObject[] = [
+  {
+    lazy: async () => ({ Component: (await import('@/routes/app-layout')).AppLayout }),
+    children: [
+      {
+        index: true,
+        lazy: async () => ({ Component: (await import('@/routes/dashboard')).DashboardPage }),
+      },
+    ],
+  },
+  {
+    path: '/login',
+    lazy: async () => ({ Component: (await import('@/routes/login')).LoginPage }),
+  },
+  {
+    path: '*',
+    lazy: async () => ({ Component: (await import('@/routes/not-found')).NotFoundPage }),
+  },
+];
 
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router;
-  }
-}
+export const router = createBrowserRouter(routes);

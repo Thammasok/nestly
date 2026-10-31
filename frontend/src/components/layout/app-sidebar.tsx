@@ -2,7 +2,10 @@
 
 import * as React from "react"
 
-import { NavMain } from "@/components/nav-main"
+import { NavMain } from "@/components/layout/nav-main"
+import { Link } from "react-router"
+
+import { NestlyLogo } from "@/components/brand/nestly-logo"
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +14,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboardIcon, AirVentIcon, RefrigeratorIcon, ZapIcon, Settings2Icon, HouseIcon } from "lucide-react"
+import { LayoutDashboardIcon, AirVentIcon, RefrigeratorIcon, ZapIcon, Settings2Icon } from "lucide-react"
 
 const data = {
   navMain: [
@@ -64,15 +67,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <HouseIcon className="size-4" />
-                </div>
+              <Link to="/">
+                {/* Name is shown as text beside it, so the mark is decorative here. */}
+                <NestlyLogo aria-hidden size={48} />
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">Nestly</span>
                   <span className="truncate text-xs">Home platform</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

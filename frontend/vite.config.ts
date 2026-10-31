@@ -1,21 +1,10 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
-import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import path from 'node:path';
 
 export default defineConfig({
-  // The router plugin must run before react() or route generation fails silently.
-  plugins: [
-    tanstackRouter({
-      target: 'react',
-      autoCodeSplitting: true,
-      // Lets tests live beside the routes they cover.
-      routeFileIgnorePattern: '\\.test\\.tsx?$',
-    }),
-    react(),
-    tailwindcss(),
-  ],
+  plugins: [react(), tailwindcss()],
   resolve: {
     alias: { '@': path.resolve(import.meta.dirname, './src') },
   },

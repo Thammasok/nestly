@@ -8,19 +8,21 @@ Early stage. `personal-home-platform-project-spec.md` is the source of truth (re
 
 ## Frontend (`frontend/`)
 
-Vite + React 19 + TypeScript + Tailwind v4 + shadcn/ui (radix-nova style, lucide icons), TanStack Router (file-based) + TanStack Query, Zustand, React Hook Form + Zod, Vitest + RTL. Client-only SPA — no SSR/Next.js.
+Vite + React 19 + TypeScript + Tailwind v4 + shadcn/ui (radix-nova style, lucide icons), React Router v8 (data mode) + TanStack Query, Zustand, React Hook Form + Zod, Vitest + RTL. Client-only SPA — no SSR/Next.js.
 
-Run from `frontend/`:
+Run from `frontend/` with **pnpm** (the only lockfile is `pnpm-lock.yaml`; don't use npm/yarn):
 
-- `npm run dev` — dev server on :5173; `/api` is proxied to the backend on :3000
-- `npm run build` — `tsc -b && vite build`
-- `npm run lint` — oxlint
-- `npm run test:run` — all tests once; single file: `npx vitest run src/routes/index.test.tsx`; by name: `npx vitest run -t "<test name>"`
-- `npx shadcn@latest add <component>` — adds a primitive to `src/components/ui/`
+- `pnpm dev` — dev server on :5173; `/api` is proxied to the backend on :3000
+- `pnpm build` — `tsc -b && vite build`
+- `pnpm lint` — oxlint
+- `pnpm test:run` — all tests once; single file: `pnpm vitest run src/routes/login.test.tsx`; by name: `pnpm vitest run -t "<test name>"`
+- `pnpm dlx shadcn@latest add <component>` — adds a primitive to `src/components/ui/` (blocks also drop files in `src/components/`; move them per the layout below)
 
 Conventions:
-- Routes are files in `src/routes/`; the router plugin generates `src/routeTree.gen.ts` (committed — `tsc -b` needs it before Vite runs). `*.test.tsx` files in `src/routes/` are ignored by route generation.
-- Router context carries the `queryClient`; route loaders should prefetch via TanStack Query rather than hold their own cache.
+- Routes are declared in one place, `src/router.tsx` (`createBrowserRouter`), each lazy-loading a page component from `src/routes/`. Pages that need the sidebar are children of the pathless `AppLayout` route; full-screen pages (e.g. `/login`) sit beside it. v8 note: `RouterProvider` is imported from `react-router/dom`, everything else from `react-router`; there is no `react-router-dom`.
+- Route tests render the real route table via `renderRoute(path)` from `src/test/render-route.tsx` (memory router). Server state still belongs in TanStack Query, not in route loaders' own caches.
+- Use `Link`/`NavLink` from `react-router` for in-app navigation, not `<a href>`.
+- `src/components/` holds only `ui/` (shadcn primitives, edit freely), `layout/` (app shell, sidebar, nav) and `brand/` (logo). Domain UI such as the login form lives in `src/features/<domain>/components/`.
 - Feature code goes in `src/features/<domain>/` (api.ts with Zod schemas → queries.ts → components/); features don't import from each other. All file names kebab-case.
 - `cn()` comes from shadcn's `cn` package (re-exported by `src/lib/utils.ts`), not clsx/tailwind-merge.
 - Theme tokens live in `src/index.css` (shadcn CSS variables mapped via `@theme inline`); use semantic classes (`bg-background`, `text-muted-foreground`), not raw palette colours.
